@@ -12,11 +12,18 @@ import {
  * Nếu muốn học kỹ và chuẩn chỉnh đầy đủ hơn thì xem Playlist này nhé:
  * https://www.youtube.com/playlist?list=PLP6tw4Zpj-RIMgUPYxhLBVCpaBs94D73V
  */
+const MOCK_ROLES = {
+  CLIENT: 'client',
+  MODERATOR: 'moderator',
+  ADMIN: 'admin'
+}
+
 const MOCK_DATABASE = {
   USER: {
     ID: 'luonggialuan-sample-id-12345678',
     EMAIL: 'luan@gmail.com',
-    PASSWORD: 'Luan@123'
+    PASSWORD: 'Luan@123',
+    ROLE: MOCK_ROLES.CLIENT
   }
 }
 
@@ -44,7 +51,8 @@ const login = async (req, res) => {
     // Trường hợp nhập đúng thông tin tài khoản, tạo token và trả về cho phía Client
     const userInfo = {
       id: MOCK_DATABASE.USER.ID,
-      email: MOCK_DATABASE.USER.EMAIL
+      email: MOCK_DATABASE.USER.EMAIL,
+      role: MOCK_DATABASE.USER.ROLE
     }
 
     const accessToken = await JwtProvider.generateToken(
@@ -113,7 +121,8 @@ const refreshToken = async (req, res) => {
     // Lấy thông tin user từ refreshToken, hạn chế truy vấn vào cơ sở dữ liệu
     const userInfo = {
       id: refreshTokenDecoded.id,
-      email: refreshTokenDecoded.email
+      email: refreshTokenDecoded.email,
+      role: refreshTokenDecoded.ROLE
     }
 
     // Tạo accessToken mới
