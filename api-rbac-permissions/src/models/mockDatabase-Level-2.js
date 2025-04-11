@@ -1,4 +1,3 @@
-// 1 user chỉ được gắn 1 role
 export const MOCK_ROLES_LEVEL_2 = [
   {
     _id: 'role-client-sample-id-123456',

@@ -7,7 +7,8 @@ import {
   REFRESH_TOKEN_SECRET_SIGNATURE
 } from '~/providers/JwtProvider'
 // import { MOCK_USER_LEVEL_1 } from '~/models/mockDatabase-Level-1'
-import { MOCK_USER_LEVEL_2 } from '~/models/mockDatabase-Level-2'
+// import { MOCK_USER_LEVEL_2 } from '~/models/mockDatabase-Level-2'
+import { MOCK_USER_LEVEL_3 } from '~/models/mockDatabase-Level-3'
 
 /**
  * Mock nhanh thông tin user thay vì phải tạo Database rồi query.
@@ -43,8 +44,8 @@ import { MOCK_USER_LEVEL_2 } from '~/models/mockDatabase-Level-2'
 const login = async (req, res) => {
   try {
     if (
-      req.body.email !== MOCK_USER_LEVEL_2.EMAIL ||
-      req.body.password !== MOCK_USER_LEVEL_2.PASSWORD
+      req.body.email !== MOCK_USER_LEVEL_3.EMAIL ||
+      req.body.password !== MOCK_USER_LEVEL_3.PASSWORD
     ) {
       res
         .status(StatusCodes.FORBIDDEN)
@@ -54,9 +55,9 @@ const login = async (req, res) => {
 
     // Trường hợp nhập đúng thông tin tài khoản, tạo token và trả về cho phía Client
     const userInfo = {
-      id: MOCK_USER_LEVEL_2.ID,
-      email: MOCK_USER_LEVEL_2.EMAIL,
-      role: MOCK_USER_LEVEL_2.ROLE
+      id: MOCK_USER_LEVEL_3.ID,
+      email: MOCK_USER_LEVEL_3.EMAIL,
+      role: MOCK_USER_LEVEL_3.ROLES
     }
 
     const accessToken = await JwtProvider.generateToken(
