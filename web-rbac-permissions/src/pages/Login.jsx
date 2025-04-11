@@ -22,13 +22,13 @@ function Login() {
   const navigate = useNavigate()
 
   const submitLogIn = async (data) => {
-    console.log('submit login: ', data)
+    // console.log('submit login: ', data)
 
     const res = await authorizeAxiosInstance.post(
       `${API_ROOT}/v1/users/login`,
       data
     )
-    console.log(res.data)
+    // console.log(res.data)
     // toast.success(res.data?.message)
     const userInfo = {
       id: res.data?.id,
