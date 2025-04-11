@@ -32,7 +32,8 @@ function Login() {
     // toast.success(res.data?.message)
     const userInfo = {
       id: res.data?.id,
-      email: res.data?.email
+      email: res.data?.email,
+      role: res.data?.role
     }
 
     // Lưu token và userInfo vào localStorage, dùng js thuần
@@ -55,11 +56,11 @@ function Login() {
         minHeight: '100vh',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        background: 'url("src/assets/trungquandev-bg-img.jpeg")',
+        background: 'url("src/assets/peakpx.jpg")',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        boxShadow: 'inset 0 0 0 2000px rgba(0, 0, 0, 0.4)'
+        backgroundPosition: 'center'
+        // boxShadow: 'inset 0 0 0 2000px rgba(0, 0, 0, 0.4)'
       }}
     >
       <form onSubmit={handleSubmit(submitLogIn)}>
@@ -74,7 +75,8 @@ function Login() {
             }}
           >
             <Box sx={{ width: '70px', bgcolor: 'white', margin: '0 auto' }}>
-              <img src={TrungQuanDevIcon} alt="trungquandev" width="100%" />
+              {/* <img src={TrungQuanDevIcon} alt="trungquandev" width="100%" /> */}
+              Login
             </Box>
             <Box
               sx={{
