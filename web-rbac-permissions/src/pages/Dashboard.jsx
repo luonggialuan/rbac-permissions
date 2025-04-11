@@ -15,32 +15,36 @@ import Tab from '@mui/material/Tab'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
+import { usePermission } from '~/hooks/usePermission'
+import { permissions } from '~/config/rbacConfig'
 
 function Dashboard() {
   const [user, setUser] = useState(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const { hasPermission } = usePermission(user?.role)
+  // console.log(hasPermission(permissions.VIEW_DASHBOARD))
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await authorizeAxiosInstance.get(
         `${API_ROOT}/v1/dashboards/access`
       )
-      console.log('Data from API', res.data)
-      console.log(
-        'Data from localStorage',
-        JSON.parse(localStorage.getItem('userInfo'))
-      )
+      // console.log('Data from API', res.data)
+      // console.log(
+      //   'Data from localStorage',
+      //   JSON.parse(localStorage.getItem('userInfo'))
+      // )
       setUser(res.data)
     }
     fetchData()
   }, [])
-  useEffect(() => {
-    const fetchData = async () => {
-      await authorizeAxiosInstance.get(`${API_ROOT}/v1/dashboards/access`)
-    }
-    fetchData()
-  }, [])
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await authorizeAxiosInstance.get(`${API_ROOT}/v1/dashboards/access`)
+  //   }
+  //   fetchData()
+  // }, [])
 
   const handleLogout = async () => {
     await handleLogoutAPI()
@@ -152,44 +156,85 @@ function Dashboard() {
       <TabContext value={tab}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab
-              label="Dashboard"
-              value={TAB_URLS.DASHBOARD}
-              component={Link}
-              to="/dashboard"
-            />
-            <Tab
-              label="Support"
-              value={TAB_URLS.SUPPORT}
-              component={Link}
-              to="/support"
-            />
-            <Tab
-              label="Messages"
-              value={TAB_URLS.MESSAGES}
-              component={Link}
-              to="/messages"
-            />
-            <Tab
-              label="Revenue"
-              value={TAB_URLS.REVENUE}
-              component={Link}
-              to="/revenue"
-            />
-            <Tab
-              label="Admin Tools"
-              value={TAB_URLS.ADMIN_TOOLS}
-              component={Link}
-              to="/admin-tools"
-            />
+            {hasPermission(permissions.VIEW_DASHBOARD) && (
+              <Tab
+                label="Dashboard"
+                value={TAB_URLS.DASHBOARD}
+                component={Link}
+                to="/dashboard"
+              />
+            )}
+            {hasPermission(permissions.VIEW_SUPPORT) && (
+              <Tab
+                label="Support"
+                value={TAB_URLS.SUPPORT}
+                component={Link}
+                to="/support"
+              />
+            )}
+            {hasPermission(permissions.VIEW_MESSAGES) && (
+              <Tab
+                label="Messages"
+                value={TAB_URLS.MESSAGES}
+                component={Link}
+                to="/messages"
+              />
+            )}
+            {hasPermission(permissions.VIEW_REVENUE) && (
+              <Tab
+                label="Revenue"
+                value={TAB_URLS.REVENUE}
+                component={Link}
+                to="/revenue"
+              />
+            )}
+            {hasPermission(permissions.VIEW_ADMIN_TOOLS) && (
+              <Tab
+                label="Admin Tools"
+                value={TAB_URLS.ADMIN_TOOLS}
+                component={Link}
+                to="/admin-tools"
+              />
+            )}
           </TabList>
         </Box>
-        <TabPanel value={TAB_URLS.DASHBOARD}>
-          <Alert severity="success" sx={{ width: { md: 'max-content' } }}>
-            Nội dung trang Dashboard chung cho tất cả các Roles!
-          </Alert>
-        </TabPanel>
-        <TabPanel value={TAB_URLS.SUPPORT}>
+        {hasPermission(permissions.VIEW_DASHBOARD) && (
+          <TabPanel value={TAB_URLS.DASHBOARD}>
+            <Alert severity="success" sx={{ width: { md: 'max-content' } }}>
+              Nội dung trang Dashboard chung cho tất cả các Roles!
+            </Alert>
+          </TabPanel>
+        )}
+        {hasPermission(permissions.VIEW_SUPPORT) && (
+          <TabPanel value={TAB_URLS.SUPPORT}>
+            <Alert severity="success" sx={{ width: { md: 'max-content' } }}>
+              Nội dung trang Support!
+            </Alert>
+          </TabPanel>
+        )}
+        {hasPermission(permissions.VIEW_MESSAGES) && (
+          <TabPanel value={TAB_URLS.MESSAGES}>
+            <Alert severity="info" sx={{ width: { md: 'max-content' } }}>
+              Nội dung trang Messages chỉ dành cho Role Admin!
+            </Alert>
+          </TabPanel>
+        )}
+        {hasPermission(permissions.VIEW_REVENUE) && (
+          <TabPanel value={TAB_URLS.REVENUE}>
+            <Alert severity="warning" sx={{ width: { md: 'max-content' } }}>
+              Nội dung trang Revenue chỉ dành cho Role Admin!
+            </Alert>
+          </TabPanel>
+        )}
+        {hasPermission(permissions.VIEW_ADMIN_TOOLS) && (
+          <TabPanel value={TAB_URLS.ADMIN_TOOLS}>
+            <Alert severity="error" sx={{ width: { md: 'max-content' } }}>
+              Nội dung trang Admin Tools chỉ dành cho Role Admin!
+            </Alert>
+          </TabPanel>
+        )}
+
+        {/* <TabPanel value={TAB_URLS.SUPPORT}>
           <Alert severity="success" sx={{ width: { md: 'max-content' } }}>
             Nội dung trang Support!
           </Alert>
@@ -208,7 +253,7 @@ function Dashboard() {
           <Alert severity="error" sx={{ width: { md: 'max-content' } }}>
             Nội dung trang Admin Tools chỉ dành cho Role Admin!
           </Alert>
-        </TabPanel>
+        </TabPanel> */}
       </TabContext>
       <Divider />
 
