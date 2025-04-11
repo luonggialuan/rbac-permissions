@@ -1,5 +1,3 @@
-// Author: TrungQuanDev: https://youtube.com/@trungquandev
-
 import { StatusCodes } from 'http-status-codes'
 import {
   ACCESS_TOKEN_SECRET_SIGNATURE,
